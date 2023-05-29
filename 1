@@ -1,0 +1,21 @@
+function onOpen() {
+  var ui = SpreadsheetApp.getUi();
+  ui.createMenu('Custom Menu')
+    .addItem('Enable Auto Cell Resize', 'enableAutoResize')
+    .addToUi();
+}
+
+function enableAutoResize() {
+  var sheet = SpreadsheetApp.getActiveSpreadsheet();
+  ScriptApp.newTrigger('resizeActiveCell')
+    .forSpreadsheet(sheet)
+    .onEdit()
+    .create();
+}
+
+function resizeActiveCell(e) {
+  var sheet = e.source.getActiveSheet();
+  var cell = sheet.getActiveCell();
+  cell.setWrap(true);
+  sheet.autoResizeColumn(cell.getColumn());
+}
